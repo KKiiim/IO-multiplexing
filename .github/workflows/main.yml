@@ -19,13 +19,13 @@ jobs:
           cmake . -B build && cmake --build build
       - name: generate selectOutput
         run:
-          cd build && ./select
+          cd build && ./select & sleep 1 && kill -INT $!
       - name: generate pollOutput
         run:
-          cd build && ./poll
+          cd build && ./poll & sleep 1 && kill -INT $!
       - name: generate epollOutput
         run:
-          cd build && ./epoll
+          cd build && ./epoll & sleep 1 && kill -INT $!
       - name: test
         run:
           cd build && ./myTest
