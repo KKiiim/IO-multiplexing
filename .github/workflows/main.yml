@@ -1,0 +1,28 @@
+name: tests
+on:
+  push:
+    branches: main
+
+jobs:
+  gtest_qsort:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: installer
+        run: 
+         sudo apt-get update -y -qq && sudo apt-get install gcc g++ libgtest-dev cmake make build-essential sed -y --no-install-recommends
+      - name: build
+        run: 
+          cmake . -B build && cmake --build build
+      - name: generate selectOutput
+        run:
+          cd build && ./select
+      - name: generate pollOutput
+        run:
+          cd build && ./poll
+      - name: generate epollOutput
+        run:
+          cd build && ./epoll
+      - name: test
+        run:
+          cd build && ./myTest
