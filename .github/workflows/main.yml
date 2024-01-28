@@ -4,13 +4,16 @@ on:
     branches: main
 
 jobs:
-  gtest_qsort:
+  IO-multiplexing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: installer
         run: 
          sudo apt-get update -y -qq && sudo apt-get install gcc g++ libgtest-dev cmake make build-essential sed -y --no-install-recommends
+      - name: format check
+        run:
+          sudo apt install clang-format && find src test -regex ".*\\.\\(cpp\\|hpp\\|c\\|h\\)" | xargs clang-format -style=file --Werror --dry-run -i 
       - name: build
         run: 
           cmake . -B build && cmake --build build
